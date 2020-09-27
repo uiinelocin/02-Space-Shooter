@@ -1,0 +1,120 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Assets/Background.jpg" type="Texture" id=1]
+[ext_resource path="res://Assets/Player.png" type="Texture" id=2]
+[ext_resource path="res://Player/Player.gd" type="Script" id=3]
+[ext_resource path="res://Asteroid/Asteroid.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/BebasNeueRegular.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://HUD/HUD.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Ion.wav" type="AudioStream" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 5 )
+
+[node name="Game" type="Node2D"]
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( -0.758667, -0.454864 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 512, 550 )
+script = ExtResource( 3 )
+
+[node name="player" type="Sprite" parent="Player"]
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
+scale = Vector2( 0.25, 0.25 )
+polygon = PoolVector2Array( 8, -185.1, 8, -182.5, 25, -149.5, 25, -146.4, 38, -112.4, 38, 14.5, 48, 8.7, 50, 9.8, 50, 10.9, 58, 15.9, 58, 18.5, 61, 23.9, 61, 176.2, 54.7, 187, 38, 187, 38, 185.6, 28.1, 171.8, 21.2, 187, -21.2, 187, -28, 171.3, -28, 173, -29.9, 173, -38.3, 187, -54.7, 187, -61, 178.4, -61, 22.1, -58.3, 16, -56.7, 16, -48.8, 9, -44.2, 9, -38, 14.5, -38, -113.3, -23.4, -154, -22.2, -154, -6, -185.5, -6, -187, 5.1, -187 )
+
+[node name="Timer" type="Timer" parent="Player"]
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 2500
+limit_bottom = 1250
+
+[node name="HUD" type="Control" parent="Player"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Player/HUD"]
+margin_left = 50.0
+margin_top = -40.0
+margin_right = 150.0
+margin_bottom = 40.0
+color = Color( 1, 1, 1, 0.25098 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Label" parent="Player/HUD"]
+anchor_left = -0.00593109
+anchor_top = -0.00593176
+anchor_right = -0.00593109
+anchor_bottom = -0.00593176
+margin_left = 55.2372
+margin_top = -24.7627
+margin_right = 145.237
+margin_bottom = -4.76273
+custom_fonts/font = SubResource( 1 )
+text = "Health:"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="Player/HUD"]
+anchor_left = -0.00593109
+anchor_top = -0.00593176
+anchor_right = -0.00593109
+anchor_bottom = -0.00593176
+margin_left = 55.2372
+margin_top = 10.2373
+margin_right = 145.237
+margin_bottom = 30.2373
+custom_fonts/font = SubResource( 1 )
+text = "Score:"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bullets" type="Node2D" parent="."]
+
+[node name="Explosions" type="Node2D" parent="."]
+
+[node name="Asteroids" type="Node2D" parent="."]
+
+[node name="Asteroid" parent="Asteroids" instance=ExtResource( 4 )]
+
+[node name="Asteroid2" parent="Asteroids" instance=ExtResource( 4 )]
+position = Vector2( 1956.32, 770.091 )
+
+[node name="Asteroid3" parent="Asteroids" instance=ExtResource( 4 )]
+position = Vector2( 1615.1, 1420.18 )
+
+[node name="Asteroid4" parent="Asteroids" instance=ExtResource( 4 )]
+position = Vector2( 541.416, 1490.78 )
+
+[node name="Asteroid5" parent="Asteroids" instance=ExtResource( 4 )]
+position = Vector2( 3182.96, 375.918 )
+
+[node name="Asteroid6" parent="Asteroids" instance=ExtResource( 4 )]
+position = Vector2( 3068.24, 1423.12 )
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+autoplay = true
+[connection signal="timeout" from="Player/Timer" to="Player" method="_on_Timer_timeout"]
